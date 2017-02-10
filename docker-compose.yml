@@ -3,19 +3,19 @@ services:
   master:
     build: .
     environment:
-      - WALE_AWS_ACCESS_KEY_ID=
-      - WALE_AWS_SECRET_ACCESS_KEY=
-      - WALE_AWS_REGION=eu-west-1
-      - WALE_S3_PREFIX=s3://docker-postgres-wale
+      - WALE_WABS_PREFIX=
+			- WABS_ACCOUNT_NAME=
+			- WABS_ACCESS_KEY=
+			- WABS_SAS_TOKEN=
     volumes:
       - ./data/master:/var/lib/postgresql/data
   slave:
     build: .
     environment:
-      - WALE_AWS_ACCESS_KEY_ID=
-      - WALE_AWS_SECRET_ACCESS_KEY=
-      - WALE_AWS_REGION=eu-west-1
-      - WALE_S3_PREFIX=s3://docker-postgres-wale
+      - WALE_WABS_PREFIX=
+			- WABS_ACCOUNT_NAME=
+			- WABS_ACCESS_KEY=
+			- WABS_SAS_TOKEN=
       - POSTGRES_AUTHORITY=slave
     volumes:
       - ./data/slave:/var/lib/postgresql/data
