@@ -40,10 +40,11 @@ else
   if grep -q "/etc/wal-e.d/env" "/var/lib/postgresql/data/postgresql.conf"; then
     echo "wal-e already configured in /var/lib/postgresql/data/postgresql.conf"
   else
-    echo "wal_level = archive" >> /var/lib/postgresql/data/postgresql.conf
     echo "archive_mode = on" >> /var/lib/postgresql/data/postgresql.conf
+    echo "wal_level = hot_standby" >> /var/lib/postgresql/data/postgresql.conf
     echo "archive_command = 'envdir /etc/wal-e.d/env /usr/local/bin/wal-e wal-push %p'" >> /var/lib/postgresql/data/postgresql.conf
     echo "archive_timeout = 60" >> /var/lib/postgresql/data/postgresql.conf
+    echo "max_wal_senders = 5" >> /var/lib/postgresql/data/postgresql.conf
   fi
 
   su - postgres -c "crontab -l | { cat; echo \"0 3 * * * /usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/data\"; } | crontab -"
